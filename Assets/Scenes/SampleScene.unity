@@ -1321,7 +1321,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1054002340}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1890806155}
+        m_TargetAssemblyTypeName: UIPanelNavigation, Assembly-CSharp
+        m_MethodName: goToSceneByName
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: CreditScene
+          m_BoolArgument: 0
+        m_CallState: 2
   PlaySoundEffect: 1
 --- !u!1 &1122173002
 GameObject:
@@ -1928,6 +1940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da512c1a5d7b934cb92b9d3fc4d2246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitializeStart: 1
 --- !u!114 &1890806156
 MonoBehaviour:
   m_ObjectHideFlags: 0
