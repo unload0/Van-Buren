@@ -14,10 +14,6 @@ public class UICustomButton : Button
     {
         base.OnPointerClick(eventData);
 
-        if (GameObject.FindFirstObjectByType<AudioManagerScript>() is { } audioManagerObject)
-            if (audioManagerObject.GetComponent<AudioManagerScript>() is { } audioManager)
-            {
-                audioManager.playSound("UIButtonClick");
-            }
+        AudioManagerScript.Instance.playSound("UIButtonEnter");
     }
 }

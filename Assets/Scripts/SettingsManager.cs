@@ -73,6 +73,21 @@ public class SettingsManager : MonoBehaviour
         {
             SetQuality(qualityDropdown.value);
         });
+
+        masterSlider.onValueChanged.AddListener(delegate
+        {
+            SetMasterVolume(masterSlider.value);
+        });
+
+        musicSlider.onValueChanged.AddListener(delegate
+        {
+            SetMusicVolume(musicSlider.value);
+        });
+
+        sfxSlider.onValueChanged.AddListener(delegate
+        {
+            SetSFXVolume(sfxSlider.value);
+        });
     }
 
     void InitializeQuality()
