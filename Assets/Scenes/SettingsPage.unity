@@ -201,7 +201,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 121798}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 820472211}
+        m_TargetAssemblyTypeName: UIPanelNavigation, Assembly-CSharp
+        m_MethodName: goToSceneByID
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &121798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2264,7 +2276,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 735341076}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 820472211}
+        m_TargetAssemblyTypeName: UIPanelNavigation, Assembly-CSharp
+        m_MethodName: goToMenu
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2136722212}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &735341076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2495,6 +2519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da512c1a5d7b934cb92b9d3fc4d2246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitializeStart: 1
 --- !u!114 &820472212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2504,7 +2529,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 820472206}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3fdf543f1586744bb40afd568714eeb, type: 3}
+  m_Script: {fileID: 11500000, guid: d7f1437c01cdc0f4b9309f91bccc2bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   resolutionDropdown: {fileID: 1009334759}
@@ -5036,7 +5061,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Apply
+  m_text: Return
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

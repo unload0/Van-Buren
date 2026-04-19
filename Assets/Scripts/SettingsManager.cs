@@ -23,7 +23,7 @@ public class SettingsManager : MonoBehaviour
     {
         // Populate the Resolution Dropdown from System (Built-in)
         InitializeResolutions();
-        
+
         // Populate the Quality Dropdown from Project Settings
         InitializeQuality();
     }
@@ -34,10 +34,10 @@ public class SettingsManager : MonoBehaviour
         // 1. Get all resolutions supported by the monitor
         allResolutions = Screen.resolutions;
         filteredResolutions = new List<Resolution>();
-        
+
         resolutionDropdown.ClearOptions();
         List<string> options = new List<string>();
-        
+
         int currentResIndex = 0;
 
         for (int i = 0; i < allResolutions.Length; i++)
@@ -64,6 +64,15 @@ public class SettingsManager : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResIndex;
         resolutionDropdown.RefreshShownValue();
+        resolutionDropdown.onValueChanged.AddListener(delegate
+        {
+            SetResolution(resolutionDropdown.value);
+        });
+
+        qualityDropdown.onValueChanged.AddListener(delegate
+        {
+            SetQuality(qualityDropdown.value);
+        });
     }
 
     void InitializeQuality()
@@ -100,6 +109,11 @@ public class SettingsManager : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         mainMixer.SetFloat("SFXVol", Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20);
+    }
+
+    public void ApplySettings()
+    {
+
     }
 
     public void QuitGame()

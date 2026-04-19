@@ -16,6 +16,12 @@ public class AudioManagerScript : MonoBehaviour
 
     private void Awake()
     {
+        if (GameObject.Find("AudioManager") is {} am)
+        {
+            if (am != this.gameObject)
+                Destroy(this.gameObject);
+        }
+
         DontDestroyOnLoad(this.gameObject);
     }
 

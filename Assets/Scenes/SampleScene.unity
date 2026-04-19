@@ -1515,7 +1515,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1122173004}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1890806155}
+        m_TargetAssemblyTypeName: UIPanelNavigation, Assembly-CSharp
+        m_MethodName: goToSceneByName
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SettingsPage
+          m_BoolArgument: 0
+        m_CallState: 2
   PlaySoundEffect: 1
 --- !u!1 &1320481152
 GameObject:
