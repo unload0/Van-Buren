@@ -21,17 +21,15 @@ public class SettingsManager : MonoBehaviour
 
     void Start()
     {
-        // Populate the Resolution Dropdown from System (Built-in)
         InitializeResolutions();
 
-        // Populate the Quality Dropdown from Project Settings
         InitializeQuality();
+
+        // InitializeAudioOptions();
     }
 
-    // --- Built-in Resolution Logic ---
     void InitializeResolutions()
     {
-        // 1. Get all resolutions supported by the monitor
         allResolutions = Screen.resolutions;
         filteredResolutions = new List<Resolution>();
 
@@ -42,16 +40,13 @@ public class SettingsManager : MonoBehaviour
 
         for (int i = 0; i < allResolutions.Length; i++)
         {
-            // Format: 1920 x 1080
             string option = allResolutions[i].width + " x " + allResolutions[i].height;
 
-            // Filter out duplicates (different refresh rates)
             if (!options.Contains(option))
             {
                 options.Add(option);
                 filteredResolutions.Add(allResolutions[i]);
 
-                // Match with current screen resolution
                 if (allResolutions[i].width == Screen.currentResolution.width &&
                     allResolutions[i].height == Screen.currentResolution.height)
                 {
@@ -60,7 +55,6 @@ public class SettingsManager : MonoBehaviour
             }
         }
 
-        // 2. Add the built-in list to your Dropdown
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResIndex;
         resolutionDropdown.RefreshShownValue();
@@ -99,7 +93,19 @@ public class SettingsManager : MonoBehaviour
         qualityDropdown.RefreshShownValue();
     }
 
-    // --- Methods linked to UI Events ---
+    void InitializeAudioOptions()
+    {
+        float dbValue;
+        bool result = mainMixer.GetFloat("MasterVol", out dbValue);
+
+        if (result)
+        {
+            float linearVolume = Mathf.Pow(10, dbValue / 20);
+
+            masterSlider.value = linearVolume;
+        }
+    }
+
     public void SetResolution(int index)
     {
         Resolution res = filteredResolutions[index];
