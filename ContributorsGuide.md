@@ -36,6 +36,7 @@ Github Desktop will be used to work with the repository, you can download it fro
 once installed, launch the program and log in with you github account
 
 you will then be able to clone the repository according to the image
+
 <img width="564" height="129" alt="image" src="https://github.com/user-attachments/assets/9977956c-cd5a-4956-8049-8ab1726a33d5" />
 
 you could either use the repo's Url https://github.com/unload0/Van-Buren.git or find it in the "Github.com" list.
@@ -48,7 +49,7 @@ Once you've installed everything and cloned the repo, you can open the unity pro
 
 Now that you have the Unity Project loaded, you can create a new branch on Github and name it according to what feature you want to implement.
 
-<img width="436" height="357" alt="image" src="https://github.com/user-attachments/assets/16d15765-68e1-447b-a0ac-29377f201919" />
+<img width="624" height="350" alt="image" src="https://github.com/user-attachments/assets/b01e63a3-5eba-4e88-83b1-bfbf4838874e" />
 
 You can create a new branch by cloning from the main branch or any other branch depending on what core functionalities you want to copy over.
 
