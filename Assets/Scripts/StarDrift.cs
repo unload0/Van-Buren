@@ -13,4 +13,9 @@ public class StarDrift : MonoBehaviour
             transform.localPosition = new Vector3(0, 0, 0);
         }
     }
+
+    void OnDisable()
+    {
+        transform.localPosition = new Vector3(0, 0, 0);
+    }
 }
