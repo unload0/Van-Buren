@@ -49,11 +49,11 @@ Once you've installed everything and cloned the repo, you can open the unity pro
 
 Now that you have the Unity Project loaded, you can create a new branch on Github and name it according to what feature you want to implement.
 
-<img width="624" height="350" alt="image" src="https://github.com/user-attachments/assets/b01e63a3-5eba-4e88-83b1-bfbf4838874e" />
+<img width="419" height="344" alt="image" src="https://github.com/user-attachments/assets/7d65259c-55b3-4c0b-b93e-4a029ef662c4" />
 
 You can create a new branch by cloning from the main branch or any other branch depending on what core functionalities you want to copy over.
 
-<img width="564" height="313" alt="image" src="https://github.com/user-attachments/assets/f79df96a-3ade-4c6d-b3b2-faebba5d8caf" />
+<img width="624" height="350" alt="image" src="https://github.com/user-attachments/assets/b01e63a3-5eba-4e88-83b1-bfbf4838874e" />
 
 Once you've successfully created a new branch, you can now switch over to your branch in Github Desktop by clicking on "Current Branch" dropdown next to "Fetch origin"
 
