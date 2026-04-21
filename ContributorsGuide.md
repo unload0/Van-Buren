@@ -21,12 +21,12 @@ Once you've finished installing Node.js, you need to also install **gltf-pipelin
 1. Open Command Prompt as administrator
 
 ![How to run Command Prompt cmdexe as administrator in Windows 10/11?](https://www.easyuefi.com/images/resource/type-cmd-in-windows-search-bar.png)
-  
+
 2. Enter the following command `npm install -g gltf-pipeline` then press enter
-<img width="551" height="144" alt="image" src="https://github.com/user-attachments/assets/af935220-21ff-45c4-bc4d-ab5dd89a3cf2" />
-  
+   
+   <img width="551" height="144" alt="image" src="https://github.com/user-attachments/assets/af935220-21ff-45c4-bc4d-ab5dd89a3cf2" />
+
 3. Done
-  
 
 ### Github Desktop
 
@@ -37,7 +37,6 @@ once installed, launch the program and log in with you github account
 
 you will then be able to clone the repository according to the image
 <img width="564" height="129" alt="image" src="https://github.com/user-attachments/assets/9977956c-cd5a-4956-8049-8ab1726a33d5" />
-
 
 you could either use the repo's Url https://github.com/unload0/Van-Buren.git or find it in the "Github.com" list.
 
@@ -66,3 +65,29 @@ when you're done with your feature, you can then create a pull-request to the ma
 <img width="370" height="555" alt="image" src="https://github.com/user-attachments/assets/fb704f50-6951-4b5c-bc6d-750252fefe75" />
 
 **always make sure to build and check for errors before submitting a request!**
+
+
+
+## Working on the computer Labs
+
+When Opening the Unity Project in the labs computer, Unity Hub might tell you to install the correct version but **You don't have to install the specified version**, just select the option to open with Unity Version **6000.1.13f**.
+
+
+
+### Node.js on Computer Lab
+
+Computers at lab already have Node.js preinstalled, but you still need to do run the command `npm install -g gltf-pipeline` in command prompt.
+
+
+
+### Install Github Desktop on Computer Lab
+
+Installing Github Desktop directly **will not work** on the computer lab, **but there is a workaround:**
+
+1. head to [this page](https://github.com/desktop/desktop/releases/latest) and download **GitHub Desktop 3.5.8 Windows x64 Full Nupkg**.
+
+2. Once downloaded, right click the file and extract it either with 7zip or winrar.
+
+3. When done extracting, enter the extracted folder then navigate to **lib -> net45**
+
+4. You will find Github Desktop in that directory.
