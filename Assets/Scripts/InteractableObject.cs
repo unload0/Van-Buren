@@ -2,16 +2,21 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
+    public bool hasInteracted = false;
+
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.E))
+        if (hasInteracted == false)
         {
-            OnInteract();
+            if (other.CompareTag("Player") && Input.GetKey(KeyCode.E))
+            {
+                OnInteract();
+            }
         }
     }
 
     public virtual void OnInteract()
     {
-        // base method
+        hasInteracted = true;
     }
 }
