@@ -3,13 +3,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRB;
+    private CapsuleCollider playerCollider;
     private GameObject cameraHolder;
     private GameObject modelHolder;
     [SerializeField] public GameObject armatureHead;
 
     private Animator playerAnimator;
 
-    private float movSpeed = 1.4f;
+    private float movSpeed = 1.5f;
     private float movSpeedCrouched = 0.6f;
     private float cameraRotSpeed = 2f;
     private float xRotation = 0f;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         playerRB = GetComponent<Rigidbody>();
+        playerCollider = GetComponent<CapsuleCollider>();
         cameraHolder = transform.Find("CameraHolder").gameObject;
         modelHolder = transform.Find("GFX").gameObject;
         playerAnimator = this.GetComponentInChildren<Animator>();
@@ -35,20 +37,15 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // playerRB.linearVelocity = new Vector3(moveDir.normalized.x * movSpeed,
-        // playerRB.linearVelocity.y, moveDir.normalized.z * movSpeed);
-        float getMoveSpeed = playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("idle") 
-        ? movSpeed : playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("crouch")  
-        || playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("crouch_idle") 
+        float getMoveSpeed = playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("idle")
+        ? movSpeed : playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("crouch")
+        || playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("crouch_idle")
         ? movSpeedCrouched : movSpeed;
 
         playerRB.linearVelocity += new Vector3(moveDir.normalized.x * getMoveSpeed,
             playerRB.linearVelocity.y, moveDir.normalized.z * getMoveSpeed) * 0.2f;
 
-        // playerRB.AddForce(moveDir, ForceMode.Acceleration);
-
         Vector3 flatVel = new Vector3(playerRB.linearVelocity.x, 0f, playerRB.linearVelocity.z);
-
 
         if (flatVel.magnitude > getMoveSpeed)
         {
@@ -93,12 +90,11 @@ public class PlayerController : MonoBehaviour
 
         moveDir = cameraDir * moveVect.normalized;
 
-        // transform.Translate(moveDir * movSpeed * Time.deltaTime);
         bool isCrouching = playerAnimator.GetBool("playerCrouched");
 
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            if(!isCrouching)
+            if (!isCrouching)
             {
                 moveVect -= moveVect;
             }
@@ -109,12 +105,23 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("playerCrouched", false);
         }
 
+        if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("crouch_idle")
+        || playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("crouch"))
+        {
+            playerCollider.center = new Vector3(0f, -0.18f, 0f);
+            playerCollider.height = 0.65f;
+        }
+        else
+        {
+            playerCollider.center = new Vector3(0f, 0f, 0f);
+            playerCollider.height = 1f;
+        }
 
         Transform target = isCrouching ? armatureHead.transform : this.transform;
-        Vector3 targetPos = isCrouching || !playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("idle") ? armatureHead.transform.position : 
+        Vector3 targetPos = isCrouching || !playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("idle") ? 
+        armatureHead.transform.position :
         this.transform.TransformPoint(new Vector3(0f, 0.4f, 0f));
 
         cameraHolder.transform.position = Vector3.Lerp(cameraHolder.transform.position, targetPos, 0.1f);
-        // cameraHolder.transform.rotation = Quaternion.Lerp(cameraHolder.transform.rotation, target.rotation, 0.1f);
     }
 }
