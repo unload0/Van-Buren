@@ -5,8 +5,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRB;
     private GameObject cameraHolder;
     private GameObject modelHolder;
+    [SerializeField] public GameObject armatureHead;
 
-    private float movSpeed = 2f;
+    private Animator playerAnimator;
+
+    private float movSpeed = 1.4f;
+    private float movSpeedCrouched = 0.6f;
     private float cameraRotSpeed = 2f;
     private float xRotation = 0f;
     private float yRotation = 0f;
@@ -18,6 +22,7 @@ public class PlayerController : MonoBehaviour
         playerRB = GetComponent<Rigidbody>();
         cameraHolder = transform.Find("CameraHolder").gameObject;
         modelHolder = transform.Find("GFX").gameObject;
+        playerAnimator = this.GetComponentInChildren<Animator>();
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -32,23 +37,30 @@ public class PlayerController : MonoBehaviour
     {
         // playerRB.linearVelocity = new Vector3(moveDir.normalized.x * movSpeed,
         // playerRB.linearVelocity.y, moveDir.normalized.z * movSpeed);
+        float getMoveSpeed = playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("idle") 
+        ? movSpeed : playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("crouch")  
+        || playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("crouch_idle") 
+        ? movSpeedCrouched : movSpeed;
 
-        playerRB.linearVelocity += new Vector3(moveDir.normalized.x * movSpeed,
-            playerRB.linearVelocity.y, moveDir.normalized.z * movSpeed) * 0.2f;
+        playerRB.linearVelocity += new Vector3(moveDir.normalized.x * getMoveSpeed,
+            playerRB.linearVelocity.y, moveDir.normalized.z * getMoveSpeed) * 0.2f;
 
         // playerRB.AddForce(moveDir, ForceMode.Acceleration);
 
         Vector3 flatVel = new Vector3(playerRB.linearVelocity.x, 0f, playerRB.linearVelocity.z);
 
-        if (flatVel.magnitude > movSpeed)
+
+        if (flatVel.magnitude > getMoveSpeed)
         {
-            Vector3 limitedVel = Vector3.ClampMagnitude(flatVel, movSpeed);
+            Vector3 limitedVel = Vector3.ClampMagnitude(flatVel, getMoveSpeed);
             playerRB.linearVelocity = new Vector3(limitedVel.x, playerRB.linearVelocity.y, limitedVel.z);
         }
         else if (flatVel.magnitude != 0 && moveDir.magnitude == 0)
         {
             playerRB.linearVelocity -= new Vector3(playerRB.linearVelocity.x, 0f, playerRB.linearVelocity.z) * 0.1f;
         }
+
+        playerAnimator.SetFloat("playerVel", flatVel.magnitude);
     }
 
     // Update is called once per frame
@@ -57,14 +69,12 @@ public class PlayerController : MonoBehaviour
         CameraControl();
 
         Movement();
-
-        Debug.Log(playerRB.linearVelocity.magnitude);
     }
 
     void CameraControl()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * (cameraRotSpeed * 100f);
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * (cameraRotSpeed * 100f);
+        float mouseX = Input.GetAxisRaw("Mouse X") * (cameraRotSpeed * 1f);
+        float mouseY = Input.GetAxisRaw("Mouse Y") * (cameraRotSpeed * 1f);
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 50);
@@ -81,8 +91,30 @@ public class PlayerController : MonoBehaviour
 
         Quaternion cameraDir = Quaternion.Euler(0, cameraHolder.transform.eulerAngles.y, 0);
 
-        moveDir = cameraDir * (moveVect.normalized * 20f);
+        moveDir = cameraDir * moveVect.normalized;
 
         // transform.Translate(moveDir * movSpeed * Time.deltaTime);
+        bool isCrouching = playerAnimator.GetBool("playerCrouched");
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            if(!isCrouching)
+            {
+                moveVect -= moveVect;
+            }
+            playerAnimator.SetBool("playerCrouched", true);
+        }
+        else
+        {
+            playerAnimator.SetBool("playerCrouched", false);
+        }
+
+
+        Transform target = isCrouching ? armatureHead.transform : this.transform;
+        Vector3 targetPos = isCrouching || !playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("idle") ? armatureHead.transform.position : 
+        this.transform.TransformPoint(new Vector3(0f, 0.4f, 0f));
+
+        cameraHolder.transform.position = Vector3.Lerp(cameraHolder.transform.position, targetPos, 0.1f);
+        // cameraHolder.transform.rotation = Quaternion.Lerp(cameraHolder.transform.rotation, target.rotation, 0.1f);
     }
 }
