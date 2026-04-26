@@ -10,24 +10,6 @@ The project is using **Unity Version (6000.1.17f)**, you can download it from [h
 
 <img width="845" height="43" alt="image" src="https://github.com/user-attachments/assets/ee74148c-d2da-4858-9c01-5be52450aaba" />
 
-### Node.js
-
-You will also need Node.js for the project, you can get it [here](https://nodejs.org/en).
-
-This will be used to automatically compress models when importing them into Unity to save storage.
-
-Once you've finished installing Node.js, you need to also install **gltf-pipeline**
-
-1. Open Command Prompt as administrator
-
-![How to run Command Prompt cmdexe as administrator in Windows 10/11?](https://www.easyuefi.com/images/resource/type-cmd-in-windows-search-bar.png)
-
-2. Enter the following command `npm install -g gltf-pipeline` then press enter
-   
-   <img width="551" height="144" alt="image" src="https://github.com/user-attachments/assets/af935220-21ff-45c4-bc4d-ab5dd89a3cf2" />
-
-3. Done
-
 ### Github Desktop
 
 Github Desktop will be used to work with the repository, you can download it from 
@@ -67,19 +49,11 @@ when you're done with your feature, you can then create a pull-request to the ma
 
 **always make sure to build and check for errors before submitting a request!**
 
-
-
 ## Working on the computer Labs
 
 When Opening the Unity Project in the labs computer, Unity Hub might tell you to install the correct version but **You don't have to install the specified version**, just select the option to open with Unity Version **6000.1.13f**.
 
-
-
-### Node.js on Computer Lab
-
-Computers at lab already have Node.js preinstalled, but you still need to do run the command `npm install -g gltf-pipeline` in command prompt.
-
-
+# 
 
 ### Install Github Desktop on Computer Lab
 

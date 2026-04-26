@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +26,11 @@ public class PlayerController : MonoBehaviour
         cameraHolder = transform.Find("CameraHolder").gameObject;
         modelHolder = transform.Find("GFX").gameObject;
         playerAnimator = this.GetComponentInChildren<Animator>();
+
+        armatureHead = modelHolder.transform.GetChild(0).GetComponentsInChildren<Transform>(true)
+        .Where(t => t.name.ToLower().Contains("head"))
+        .Select(t => t.gameObject)
+        .FirstOrDefault();
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -57,7 +63,7 @@ public class PlayerController : MonoBehaviour
             playerRB.linearVelocity -= new Vector3(playerRB.linearVelocity.x, 0f, playerRB.linearVelocity.z) * 0.1f;
         }
 
-        playerAnimator.SetFloat("playerVel", flatVel.magnitude);
+        playerAnimator.SetFloat("playerVel", flatVel.magnitude);    
     }
 
     // Update is called once per frame

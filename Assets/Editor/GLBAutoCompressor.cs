@@ -12,7 +12,7 @@ public class GLBAutoProcessor : AssetPostprocessor
         {
             if (path.EndsWith(".glb") && !path.Contains("_compressed"))
             {
-                CompressGLB(path);
+                // CompressGLB(path);
             }
         }
     }
