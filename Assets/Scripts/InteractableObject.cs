@@ -4,11 +4,11 @@ public class InteractableObject : MonoBehaviour
 {
     public bool hasInteracted = false;
 
-    private void OnCollisionStay(Collision other)
+    private void OnTriggerStay(Collider other)
     {
         if (hasInteracted == false)
         {
-            if (other.gameObject.CompareTag("Player") && Input.GetKey(KeyCode.E))
+            if (other.CompareTag("Player") && Input.GetKey(KeyCode.E))
             {
                 OnInteract();
             }
