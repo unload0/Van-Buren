@@ -123,10 +123,11 @@ public class PlayerController : MonoBehaviour
             playerCollider.height = 1f;
         }
 
-        Transform target = isCrouching ? armatureHead.transform : this.transform;
+        //Transform target = isCrouching ? armatureHead.transform : this.transform;
         Vector3 targetPos = isCrouching || !playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("idle") ? 
         armatureHead.transform.position :
-        this.transform.TransformPoint(new Vector3(0f, 0.4f, 0f));
+        this.transform.position + (this.transform.up * 0.4f) + (cameraHolder.transform.forward * -0.1f);
+        // this.transform.TransformPoint(new Vector3(0f, 0.4f, 0f));
 
         cameraHolder.transform.position = Vector3.Lerp(cameraHolder.transform.position, targetPos, 0.1f);
     }
