@@ -19,6 +19,12 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 moveDir;
 
+    public float walkBobSpeed = 14f;
+    public float walkBobAmount = 0.05f;
+    private float defaultPosY = 0;
+    private float timer = 0;
+    private float currentBobAmount = 0;
+
     void Awake()
     {
         playerRB = GetComponent<Rigidbody>();
@@ -63,7 +69,7 @@ public class PlayerController : MonoBehaviour
             playerRB.linearVelocity -= new Vector3(playerRB.linearVelocity.x, 0f, playerRB.linearVelocity.z) * 0.1f;
         }
 
-        playerAnimator.SetFloat("playerVel", flatVel.magnitude);    
+        playerAnimator.SetFloat("playerVel", flatVel.magnitude);
     }
 
     // Update is called once per frame
@@ -124,11 +130,38 @@ public class PlayerController : MonoBehaviour
         }
 
         //Transform target = isCrouching ? armatureHead.transform : this.transform;
-        Vector3 targetPos = isCrouching || !playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("idle") ? 
-        armatureHead.transform.position :
-        this.transform.position + (this.transform.up * 0.4f) + (cameraHolder.transform.forward * -0.1f);
-        // this.transform.TransformPoint(new Vector3(0f, 0.4f, 0f));
+        // Vector3 targetPos = isCrouching || !playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("idle") ? 
+        // armatureHead.transform.position :
+        // this.transform.position + (this.transform.up * 0.4f) + (cameraHolder.transform.forward * -0.1f);
+        // // this.transform.TransformPoint(new Vector3(0f, 0.4f, 0f));
 
-        cameraHolder.transform.position = Vector3.Lerp(cameraHolder.transform.position, targetPos, 0.1f);
+        // cameraHolder.transform.position = Vector3.Lerp(cameraHolder.transform.position, targetPos, 0.1f);
+
+        Vector3 baseTargetPos = isCrouching || !playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("idle") ?
+                                armatureHead.transform.position :
+                                transform.position + (transform.up * 0.4f) + (cameraHolder.transform.forward * -0.1f);
+
+        float horizontalSpeed = new Vector2(playerRB.linearVelocity.x, playerRB.linearVelocity.z).magnitude;
+
+        float speedFactor = Mathf.Clamp01(horizontalSpeed / movSpeed);
+
+        if (horizontalSpeed > 0.1f && !isCrouching)
+        {
+            timer += Time.deltaTime * walkBobSpeed * speedFactor;
+            currentBobAmount = Mathf.Lerp(currentBobAmount, walkBobAmount * speedFactor, Time.deltaTime * 10f);
+        }
+        else
+        {
+            currentBobAmount = Mathf.Lerp(currentBobAmount, 0f, Time.deltaTime * 10f);
+        }
+
+        float bobOffsetHorizontal = Mathf.Cos(timer * 0.5f) * currentBobAmount;
+        float bobOffsetVertical = Mathf.Sin(timer) * currentBobAmount;
+
+        Vector3 bobbingOffset = cameraHolder.transform.right * bobOffsetHorizontal +
+                               cameraHolder.transform.up * bobOffsetVertical;
+
+        Vector3 finalTargetPos = baseTargetPos + bobbingOffset;
+        cameraHolder.transform.position = Vector3.Lerp(cameraHolder.transform.position, finalTargetPos, 0.1f);
     }
 }

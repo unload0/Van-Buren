@@ -142,7 +142,8 @@ public class Enemy : MonoBehaviour
 
     bool CanSeePlayer()
     {
-        if (Physics.Linecast(armatureHead.transform.position, PlayerAtRuntime.armatureHead.transform.position, out RaycastHit hit, visionMask))
+        if (Physics.Linecast(armatureHead.transform.position, 
+        PlayerAtRuntime.armatureHead.transform.position, out RaycastHit hit, visionMask))
         {
             if (hit.collider.CompareTag("Player"))
             {
