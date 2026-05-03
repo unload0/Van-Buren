@@ -6,6 +6,7 @@ TagManager:
   tags:
   - interactable
   - Door
+  - Barrier
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - Viewmodel
   - Player
-  - 
+  - Objects
   - 
   - 
   - 

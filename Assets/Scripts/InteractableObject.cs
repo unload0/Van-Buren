@@ -1,9 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InteractableObject : MonoBehaviour
 {
-    public bool hasInteracted = false;
+    public bool InteractOnce = true;
+    [HideInInspector] public bool hasInteracted = false;
     [SerializeField] public bool AutoSetColliderAsTrigger = true;
+
+    public UnityEvent events;
 
     private void Awake()
     {
@@ -24,6 +28,8 @@ public class InteractableObject : MonoBehaviour
 
     public virtual void OnInteract()
     {
-        hasInteracted = true;
+        events.Invoke();
+        if (InteractOnce)
+            hasInteracted = true;
     }
 }
