@@ -16,7 +16,8 @@ public class Enemy : MonoBehaviour
     private Vector3 CoverPositionCalculated;
 
     [SerializeField] public EnemyState enemyState = EnemyState.Defense;
-    public LayerMask visionMask;
+    [SerializeField] public EnemyType enemyType = EnemyType.Grunt;
+    private LayerMask visionMask;
 
     private float minStandTime = 3f;
     private float maxStandTime = 6f;
@@ -33,11 +34,40 @@ public class Enemy : MonoBehaviour
         Defense
     }
 
+    public enum EnemyType
+    {
+        Grunt,
+        Grunt_Infected,
+        Grunt_Heavy
+    }
+
     void Awake()
     {
+        modelHolder = this.transform.GetChild(0).gameObject;
+
+        visionMask = LayerMask.GetMask(new string[] {"Default", "Viewmodel", "Player", "Objects"});
+
+        //set all model types to be disabled, later enabled using EnemyType
+        foreach (Transform child in modelHolder.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
+        switch (enemyType)
+        {
+            case EnemyType.Grunt:
+                modelHolder.transform.Find("grunt_idle").gameObject.SetActive(true);
+                break;
+            case EnemyType.Grunt_Infected:
+                modelHolder.transform.Find("grunt_infected_idle").gameObject.SetActive(true);
+                break;
+            default:
+                modelHolder.transform.Find("grunt_idle").gameObject.SetActive(true);
+                break;
+        }
+
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
-        modelHolder = this.transform.GetChild(0).gameObject;
 
         armatureHead = modelHolder.transform.GetChild(0).GetComponentsInChildren<Transform>(true)
         .Where(t => t.name.ToLower().Contains("head"))
@@ -142,7 +172,7 @@ public class Enemy : MonoBehaviour
 
     bool CanSeePlayer()
     {
-        if (Physics.Linecast(armatureHead.transform.position, 
+        if (Physics.Linecast(armatureHead.transform.position,
         PlayerAtRuntime.armatureHead.transform.position, out RaycastHit hit, visionMask))
         {
             if (hit.collider.CompareTag("Player"))

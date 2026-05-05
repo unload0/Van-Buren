@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
         .Select(t => t.gameObject)
         .FirstOrDefault();
 
+        armatureHead.tag = "Player";
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
