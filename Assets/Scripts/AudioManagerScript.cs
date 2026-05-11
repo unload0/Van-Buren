@@ -40,18 +40,6 @@ public class AudioManagerScript : MonoBehaviour
     {
         if (sounds.Count == 0)
             Debug.LogWarning("sound list contain no sounds");
-
-        // AudioMapping? mapping = sounds.FirstOrDefault(s => s.name == SoundName);
-
-        // if (mapping != null)
-        // {
-        //     audioSource.outputAudioMixerGroup = mapping?.mixerGroup;
-        //     audioSource.PlayOneShot(mapping?.soundClip);
-        // }
-        // else
-        // {
-        //     Debug.LogWarning("sound not found");
-        // }
         
         if (sounds.FirstOrDefault(s => s.name == SoundName) is { soundClip: not null } mapping)
         {

@@ -4,6 +4,7 @@ using UnityEngine.Events;
 public class InteractableObject : MonoBehaviour
 {
     public bool InteractOnce = true;
+
     [HideInInspector] public bool hasInteracted = false;
     [SerializeField] public bool AutoSetColliderAsTrigger = true;
 
