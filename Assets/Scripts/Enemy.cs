@@ -19,6 +19,20 @@ public class Enemy : MonoBehaviour
     [SerializeField] public EnemyType enemyType = EnemyType.Grunt;
     private LayerMask visionMask;
 
+    private float movementSpeed
+    {
+        get
+        {
+            return enemyType == EnemyType.Grunt_Heavy
+            || enemyType == EnemyType.Grunt_Heavy_Infected
+            ? 0.35f : 1.2f;
+        }
+        set
+        {
+
+        }
+    }
+
     private float minStandTime = 3f;
     private float maxStandTime = 6f;
     private float minCoverTime = 2f;
@@ -38,14 +52,15 @@ public class Enemy : MonoBehaviour
     {
         Grunt,
         Grunt_Infected,
-        Grunt_Heavy
+        Grunt_Heavy,
+        Grunt_Heavy_Infected
     }
 
     void Awake()
     {
         modelHolder = this.transform.GetChild(0).gameObject;
 
-        visionMask = LayerMask.GetMask(new string[] {"Default", "Viewmodel", "Player", "Objects"});
+        visionMask = LayerMask.GetMask(new string[] { "Default", "Viewmodel", "Player", "Objects" });
 
         //set all model types to be disabled, later enabled using EnemyType
         foreach (Transform child in modelHolder.transform)
@@ -61,6 +76,12 @@ public class Enemy : MonoBehaviour
             case EnemyType.Grunt_Infected:
                 modelHolder.transform.Find("grunt_infected_idle").gameObject.SetActive(true);
                 break;
+            case EnemyType.Grunt_Heavy:
+                modelHolder.transform.Find("heavy_grunt_idle").gameObject.SetActive(true);
+                break;
+            case EnemyType.Grunt_Heavy_Infected:
+                modelHolder.transform.Find("heavy_grunt_infected_idle").gameObject.SetActive(true);
+                break;
             default:
                 modelHolder.transform.Find("grunt_idle").gameObject.SetActive(true);
                 break;
@@ -73,6 +94,13 @@ public class Enemy : MonoBehaviour
         .Where(t => t.name.ToLower().Contains("head"))
         .Select(t => t.gameObject)
         .FirstOrDefault();
+
+        navMeshAgent.speed = movementSpeed;
+
+        if (enemyType == EnemyType.Grunt_Heavy || enemyType == EnemyType.Grunt_Heavy_Infected)
+        {
+            enemyState = EnemyState.MoveToPlayer;
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -80,31 +108,41 @@ public class Enemy : MonoBehaviour
     {
         PlayerAtRuntime = GameObject.FindFirstObjectByType<PlayerController>();
 
-        if (DefenseBarrier == null)
+        if (enemyType != EnemyType.Grunt_Heavy || enemyType != EnemyType.Grunt_Heavy_Infected)
         {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1f, LayerMask.GetMask("Objects"));
-
-            foreach (var hitCollider in hitColliders)
+            if (DefenseBarrier == null)
             {
-                if (hitCollider.CompareTag("Barrier"))
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1f, LayerMask.GetMask("Objects"));
+
+                foreach (var hitCollider in hitColliders)
                 {
-                    DefenseBarrier = hitCollider.gameObject;
-                    break;
+                    if (hitCollider.CompareTag("Barrier"))
+                    {
+                        DefenseBarrier = hitCollider.gameObject;
+                        break;
+                    }
                 }
             }
-        }
 
-        if (DefenseBarrier != null)
-        {
-            CoverPositionCalculated = DefenseBarrier.transform.position;
-        }
+            if (DefenseBarrier != null)
+            {
+                CoverPositionCalculated = DefenseBarrier.transform.position;
+            }
 
-        SetCoverState(false);
+            SetCoverState(false);
+        }
     }
 
     void FixedUpdate()
     {
-        CanSeePlayer();
+        if (CanSeePlayer())
+        {
+            Shooting();
+        }
+        else
+        {
+            animator.SetBool("IsShooting", false);
+        }
     }
 
     // Update is called once per frame
@@ -123,17 +161,31 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            navMeshAgent.destination = PlayerAtRuntime.transform.position;
+            if (enemyType == EnemyType.Grunt_Heavy || enemyType == EnemyType.Grunt_Heavy_Infected)
+            {
+                if (animator.GetBool("IsShooting"))
+                {
+                    navMeshAgent.destination = this.transform.position;
+                }
+                else
+                {
+                    navMeshAgent.destination = PlayerAtRuntime.transform.position;
+                }
+            }
+            else
+            {
+                navMeshAgent.destination = PlayerAtRuntime.transform.position;
+            }
         }
     }
 
-    void OnAnimatorMove()
-    {
-        if (animator.GetBool("IsMoving"))
-        {
-            navMeshAgent.speed = (animator.deltaPosition / Time.deltaTime).magnitude;
-        }
-    }
+    // void OnAnimatorMove()
+    // {
+    //     if (animator.GetBool("IsMoving"))
+    //     {
+    //         navMeshAgent.speed = (animator.deltaPosition / Time.deltaTime).magnitude;
+    //     }
+    // }
 
     void DefenseMode()
     {
@@ -184,5 +236,11 @@ public class Enemy : MonoBehaviour
         }
 
         return false;
+    }
+
+    void Shooting()
+    {
+        animator.SetBool("IsShooting", true);
+        animator.SetBool("IsMoving", false);
     }
 }
