@@ -18,13 +18,10 @@ public class Projectile : MonoBehaviour
         
         if (rb != null)
         {
-            // Disable gravity temporarily so the bullet flies straight
             rb.useGravity = false; 
             
             Vector3 velocityVector = direction.normalized * speed;
-            rb.linearVelocity = velocityVector; // For modern Unity versions
-            
-            Debug.Log("Projectile velocity applied successfully!");
+            rb.linearVelocity = velocityVector;
         }
         else
         {
@@ -36,7 +33,7 @@ public class Projectile : MonoBehaviour
 
     private void Deactivate()
     {
-        gameObject.SetActive(false);
+        Destroy(this.gameObject);
     }
 
     private void OnDisable()
