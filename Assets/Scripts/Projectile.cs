@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float speed = 20f;
-    [SerializeField] private float lifespan = 2f;
+    [SerializeField] private float lifespan = 1.25f;
 
     private Rigidbody rb;
 
@@ -12,7 +11,7 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    public void Launch(Vector3 direction)
+    public void Launch(Vector3 direction, float bulletSpeed = 20f)
     {
         if (rb == null) rb = GetComponent<Rigidbody>();
         
@@ -20,7 +19,7 @@ public class Projectile : MonoBehaviour
         {
             rb.useGravity = false; 
             
-            Vector3 velocityVector = direction.normalized * speed;
+            Vector3 velocityVector = direction.normalized * bulletSpeed;
             rb.linearVelocity = velocityVector;
         }
         else
@@ -39,5 +38,11 @@ public class Projectile : MonoBehaviour
     private void OnDisable()
     {
         CancelInvoke();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        rb.useGravity = true;
+        rb.linearVelocity -= rb.linearVelocity;
     }
 }

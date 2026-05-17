@@ -8,6 +8,7 @@ public class WeaponShoot : MonoBehaviour
     [SerializeField] public GameObject bulletPrefab;
     [SerializeField] public float fireRate = 0.2f;
     [SerializeField] public float spreadIntensity = 0.05f;
+    [SerializeField] public float bulletSpeed = 20f;
 
     [Header("Multi-Shot Settings")]
     [SerializeField] public bool ShotGunMode = false;
@@ -46,7 +47,7 @@ public class WeaponShoot : MonoBehaviour
 
     void CreateBullet()
     {
-        Vector3 fireDirection = transform.forward + transform.localPosition;
+        Vector3 fireDirection = transform.right;
 
         fireDirection.x += Random.Range(-spreadIntensity / 100f, spreadIntensity / 100f);
         fireDirection.y += Random.Range(-spreadIntensity / 100f, spreadIntensity / 100f);
@@ -56,7 +57,7 @@ public class WeaponShoot : MonoBehaviour
 
         if (bulletInstance.TryGetComponent<Projectile>(out Projectile projectile))
         {
-            projectile.Launch(fireDirection.normalized);
+            projectile.Launch(fireDirection.normalized, bulletSpeed);
         }
     }
 }
