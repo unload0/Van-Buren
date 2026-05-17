@@ -46,7 +46,7 @@ public class WeaponShoot : MonoBehaviour
 
     void CreateBullet()
     {
-        Vector3 fireDirection = transform.forward;
+        Vector3 fireDirection = transform.forward + transform.localPosition;
 
         fireDirection.x += Random.Range(-spreadIntensity / 100f, spreadIntensity / 100f);
         fireDirection.y += Random.Range(-spreadIntensity / 100f, spreadIntensity / 100f);
